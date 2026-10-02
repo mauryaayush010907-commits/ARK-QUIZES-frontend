@@ -91,7 +91,7 @@ export default function QuizDetail() {
   const [confirm, confirmNode] = useConfirm();
   const [preview, setPreview] = useState(null);
   const [integrityDetail, setIntegrityDetail] = useState(null);
- 
+  const [savingQuestion, setSavingQuestion] = useState(false);
  
   const { data: quiz, loading: quizLoading, error: quizError, reload: reloadQuiz } = useAsync(() => getQuiz(token, id), [token, id]);
   const { data: questionData, error: questionError, reload: reloadQuestions } = useAsync(() => listQuestions(token, id), [token, id]);
