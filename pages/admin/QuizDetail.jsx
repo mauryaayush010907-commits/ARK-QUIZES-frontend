@@ -545,6 +545,7 @@ const saveQuestion = async () => {
               editor={editor}
               setEditor={setEditor}
               saveQuestion={saveQuestion}
+              savingQuestion={savingQuestion}
             />
           )}
         </Modal>
@@ -1599,6 +1600,7 @@ function QuestionEditor({
   editor,
   setEditor,
   saveQuestion,
+  savingQuestion,
 }) {
   return (
     <div className="space-y-5">
