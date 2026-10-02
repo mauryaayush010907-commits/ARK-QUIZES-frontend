@@ -733,6 +733,8 @@ function QuestionsPanel({
   onDuplicate,
   setImportOpen,
   setImportResult,
+  token,
+  toast,
 }) {
   return (
     <div className="space-y-4">
@@ -803,8 +805,8 @@ function QuestionsPanel({
               setEditor={setEditor}
               setPreview={setPreview}
               removeQ={removeQ}
-              token={token}
-              toast={toast}
+              onDuplicate={onDuplicate}
+              
             />
           ))}
 
@@ -825,8 +827,7 @@ function QuestionCard({
   setEditor,
   setPreview,
   removeQ,
-  token,
-  toast,
+  onDuplicate,
 }) {
   return (
     <div className="group rounded-2xl border border-[#E2E8F0] bg-white shadow-[0_4px_20px_rgba(15,23,42,0.035)] transition hover:border-[#D7D0FF] hover:shadow-[0_8px_28px_rgba(109,74,255,0.06)]">
