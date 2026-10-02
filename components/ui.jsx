@@ -15,6 +15,7 @@ export function Button({
   variant = "primary",
   size = "md",
   loading,
+  type = "button",
   ...props
 }) {
   const sizes = {
@@ -45,6 +46,7 @@ export function Button({
 
   return (
     <button
+      type={type}
       className={cn(
         "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50",
         sizes[size],

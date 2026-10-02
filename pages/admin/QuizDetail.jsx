@@ -91,7 +91,7 @@ export default function QuizDetail() {
   const [confirm, confirmNode] = useConfirm();
   const [preview, setPreview] = useState(null);
   const [integrityDetail, setIntegrityDetail] = useState(null);
-
+ 
   const { data: quiz, loading: quizLoading, error: quizError, reload: reloadQuiz } = useAsync(() => getQuiz(token, id), [token, id]);
   const { data: questionData, error: questionError, reload: reloadQuestions } = useAsync(() => listQuestions(token, id), [token, id]);
   const { data: participantData, error: participantError, reload: reloadParticipants } = useAsync(() => listParticipants(token, id), [token, id]);
@@ -122,21 +122,31 @@ export default function QuizDetail() {
     );
   }
 
-  const saveQuestion = async () => {
-    try {
-      if (editor._id) {
-        await updateQuestion(token, editor._id, editor);
-      } else {
-        await addQuestion(token, id, editor);
-      }
+const [savingQuestion, setSavingQuestion] = useState(false);
 
-      await refresh();
-      toast.success("Question saved");
-      setEditor(null);
-    } catch (e) {
-      toast.error(e.message);
+
+const saveQuestion = async () => {
+  if (savingQuestion) return;
+
+  setSavingQuestion(true);
+
+  try {
+    if (editor._id) {
+      await updateQuestion(token, editor._id, editor);
+    } else {
+      await addQuestion(token, id, editor);
     }
-  };
+
+    await refresh();
+
+    toast.success("Question saved");
+    setEditor(null);
+  } catch (e) {
+    toast.error(e.message);
+  } finally {
+    setSavingQuestion(false);
+  }
+};
 
   const removeQ = async (qid) => {
     const ok = await confirm({
@@ -1742,18 +1752,21 @@ function QuestionEditor({
       <div className="flex justify-end gap-2 border-t border-[#E2E8F0] pt-4">
 
         <Button
+          type="button"
           variant="outline"
-          onClick={() =>
-            setEditor(null)
-          }
+          onClick={() => setEditor(null)}
+          disabled={savingQuestion}
         >
           Cancel
         </Button>
 
-        <Button onClick={saveQuestion}>
-          Save question
+        <Button
+          type="button"
+          onClick={saveQuestion}
+          disabled={savingQuestion}
+        >
+          {savingQuestion ? "Saving..." : "Save question"}
         </Button>
-
       </div>
     </div>
   );
